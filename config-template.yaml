@@ -1,0 +1,34 @@
+mmd:
+  domain: https://xxx.com
+  host: 0.0.0.0
+  port: 8080
+  debugPassword: 123456
+
+zap_logger:
+  level: info
+  encoding: utf8
+  outputPaths:
+    - /var/log/app.log
+  errorOutputPaths:
+    - /var/log/error.log
+  initialFields:
+    app: myapp
+  encoderConfig:
+    MessageKey: message
+    LevelKey: level
+    TimeKey: time
+
+mysql:
+  host: 127.0.0.1
+  port: 3306
+  username: root
+  password: 123456
+  database: lark-bot
+
+redis:
+  host: 127.0.0.1
+  port: 6379
+  password: 123456
+  database: 1
+  poolSize: 10
+  MaxIdle: 10
