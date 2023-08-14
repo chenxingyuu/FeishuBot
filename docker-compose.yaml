@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  bot-go:
+    build: .
+    ports:
+      - '9091:9000'
+    volumes:
+      - /data/deploys/bot/config.yaml:/config.yaml
