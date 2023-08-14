@@ -24,6 +24,24 @@ func LarkBotList(c *gin.Context) {
 }
 
 func LarkBotCreate(c *gin.Context) {
+	var params models.LarkBotCreateRequest
+	if err := c.ShouldBindJSON(&params); err != nil {
+		response.ErrorJsonResponse(c, err.Error())
+		return
+	}
+
+	larkApp, err := services.LarkAppByUUID(params.LarkAppUUID)
+	if err != nil {
+		response.ErrorJsonResponse(c, err.Error())
+		return
+	}
+
+	err = services.LarkBotCreate(larkApp.ID, params.Name, params.LarkBotType)
+	if err != nil {
+		response.ErrorJsonResponse(c, err.Error())
+		return
+	}
+
 	response.SuccessJsonResponse(c, nil)
 	return
 }

@@ -1,22 +1,22 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/tietiexx/bot/code/backend/global"
 	"github.com/tietiexx/bot/code/backend/middlewares"
 	"github.com/tietiexx/bot/code/backend/routes"
+	"time"
 )
 
-func SetupApp() {
+func StartGinApp() {
 	// 加载配置文件
 	global.InitViper()
 	// 初始化 MySQL
 	global.InitMySQL(global.MySQLConf)
 	// 初始化 Redis
 	global.InitRedis(global.RedisConf)
-}
 
-func StartApp() {
 	app := gin.New()
 	// 初始化全局中间件
 	app.Use(middlewares.LogMiddleware())
@@ -29,10 +29,17 @@ func StartApp() {
 	if err != nil {
 		return
 	}
+}
 
+func StartMessageProcess() {
+	for {
+		fmt.Println("Processing notification")
+		time.Sleep(time.Second * 5) // 假设每隔5秒处理一次通知
+	}
 }
 
 func main() {
-	SetupApp()
-	StartApp()
+	go StartGinApp()
+	go StartMessageProcess()
+	select {}
 }

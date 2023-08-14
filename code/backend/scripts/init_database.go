@@ -18,6 +18,8 @@ func main() {
 		&database.User{},
 		&database.LarkApp{},
 		&database.LarkBot{},
+		&database.WebhookTask{},
+		&database.Receiver{},
 	)
 
 	// 初始化静态数据

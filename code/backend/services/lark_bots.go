@@ -24,13 +24,14 @@ func LarkBotByUUID(uuid string) (lakeBot *database.LarkBot, err error) {
 	return
 }
 
-func LarkBotCreate(uuid, name string, lakeBotType constant.LakeBotType) (err error) {
-	var lakeBot = database.LarkBot{UUID: uuid, Name: name, BotType: lakeBotType}
+func LarkBotCreate(larkAppID uint, name string, lakeBotType constant.LakeBotType) (err error) {
+	var lakeBot = database.LarkBot{Name: name, BotType: lakeBotType, LarkAppID: larkAppID}
 	err = global.MySQLClient.Create(&lakeBot).Error
 	return
 }
 
 func LarkBotListQuery(params models.LarkBotListRequest, count bool) (query *gorm.DB) {
+	query = global.MySQLClient.Model(&database.LarkBot{})
 	return
 }
 

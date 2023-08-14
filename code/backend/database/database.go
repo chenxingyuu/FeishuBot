@@ -24,6 +24,7 @@ type LarkApp struct {
 	BaseModel
 	UUID              string  `gorm:"comment:bot uuid;size:32" json:"uuid"`
 	Name              string  `gorm:"comment:bot name;size:32" json:"name"`
+	Status            uint8   `gorm:"comment:app状态 0-失效 1-生效;default:1" json:"status"`
 	AppId             string  `gorm:"size:32" json:"app_id"`
 	AppSecret         string  `gorm:"size:32" json:"app_secret"`
 	EncryptKey        string  `gorm:"size:32" json:"encrypt_key"`
@@ -33,8 +34,28 @@ type LarkApp struct {
 
 type LarkBot struct {
 	BaseModel
-	UUID      string               `gorm:"comment:bot uuid;size:32" json:"uuid"`
-	Name      string               `gorm:"comment:bot name;size:32" json:"name"`
-	BotType   constant.LakeBotType `gorm:"comment:机器人类型 1-自定义机器人 2-应用机器人" json:"bot_type"`
-	LarkAppID uint
+	UUID         string               `gorm:"comment:bot uuid;size:32" json:"uuid"`
+	Name         string               `gorm:"comment:bot name;size:32" json:"name"`
+	BotType      constant.LakeBotType `gorm:"comment:机器人类型 1-自定义机器人 2-应用机器人" json:"bot_type"`
+	Status       uint8                `gorm:"comment:bot状态 0-失效 1-生效;default:1" json:"status"`
+	LarkAppID    uint                 `gorm:"" json:"lark_app_id"`
+	WebhookTasks []WebhookTask        `gorm:"" json:"webhook_tasks"`
+}
+
+type WebhookTask struct {
+	BaseModel
+	Name        string     `gorm:"comment:bot name;size:32" json:"name"`
+	Status      uint8      `gorm:"comment:bot状态 0-失效 1-生效;default:1" json:"status"`
+	WebhookType uint8      `gorm:"comment:钩子类型" json:"webhook_type"`
+	Repository  string     `gorm:"comment:仓库地址" json:"repository"`
+	Receiver    []Receiver `gorm:"comment:接收者" json:"receive_config"`
+	LarkBotID   uint
+}
+
+type Receiver struct {
+	BaseModel
+	Name          string `json:"name"`
+	WebhookTaskID uint   `json:"webhook_task_id"`
+	LarkOpenID    string `json:"lark_open_id"`
+	Type          string `json:"type"`
 }

@@ -23,9 +23,25 @@ func LarkAppByUUID(uuid string) (lakeApp *database.LarkApp, err error) {
 	return
 }
 
-func LarkAppCreate(uuid, name string) (err error) {
-	var lakeApp = database.LarkApp{UUID: uuid, Name: name}
+func LarkAppCreate(name string) (err error) {
+	var lakeApp = database.LarkApp{Name: name}
 	err = global.MySQLClient.Create(&lakeApp).Error
+	return
+}
+
+func LarkAppUpdateByUUID(larkAppUUID string, lakeApp *database.LarkApp) (err error) {
+	err = global.MySQLClient.Where("uuid = ?", larkAppUUID).Updates(lakeApp).Error
+	return
+}
+
+func LarkAppSave(larkApp *database.LarkApp) (err error) {
+	err = global.MySQLClient.Save(larkApp).Error
+	return
+}
+
+func LarkAppDelete(uuid string) (err error) {
+	var lakeApp = database.LarkApp{UUID: uuid}
+	err = global.MySQLClient.Delete(&lakeApp).Error
 	return
 }
 
